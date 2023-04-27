@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using VehicleWebAPI.Models.DTOs;
 using VehicleWebAPI.Models.Entities;
@@ -7,6 +8,7 @@ namespace VehicleWebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[EnableCors("_myAllowSpecificOrigins")]
 public class VehicleController : ControllerBase
 {
     private readonly DataContext _dataContext;
