@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string connectionString = $"Data Source=.;Initial Catalog=VehicleDB;Integrated Security=True;TrustServerCertificate=True";
+string connectionString = "Data Source=.;Initial Catalog=VehicleDB;Integrated Security=True;TrustServerCertificate=True";
 builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(connectionString));
 
 builder.Services.AddCors(options =>
@@ -21,9 +21,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:4200",
-            "https://localhost:4200",
-            "http://bayland.com",
-            "https://bayland.com")
+            "https://localhost:4200")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
