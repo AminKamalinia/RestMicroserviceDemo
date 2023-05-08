@@ -31,8 +31,8 @@ namespace EmployeeWebAPI.Models.Entities
         [BsonElement("IsActive"), BsonRepresentation(BsonType.Boolean)]
         public bool IsActive { get; set; }
 
-        [BsonElement("DepartmentIds"), BsonRepresentation(BsonType.Array)]
-        public List<int> DepartmentIds { get; set; }
+        [BsonElement("DepartmentIds")]
+        public List<string> DepartmentIds { get; set; }
 
         [BsonElement("IsDeleted"), BsonRepresentation(BsonType.Boolean)]
         public bool IsDeleted { get; set; }

@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using EmployeeWebAPI.Models.DTOs.Department;
 using EmployeeWebAPI.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ public class DepartmentController : ControllerBase
 
     public DepartmentController()
     {
-        string connectionString = "mongodb://localhost:27017/departmentDB";
+        string connectionString = "mongodb://localhost:27017/employeeDB";
 
         MongoUrl mongoUrl = MongoUrl.Create(connectionString);
         MongoClient mongoClient = new MongoClient(mongoUrl);
@@ -26,18 +27,15 @@ public class DepartmentController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<DepartmentResult>>> GetDepartments()
     {
-        return await _departmentCollection.AsQueryable().Select(s => new DepartmentResult()
-        {
-            _Id = s._Id,
-            Name = s.Name
-        }).ToListAsync();
+        return await _departmentCollection.AsQueryable().Where(r => r.IsDeleted == false).Select(ToResult).ToListAsync();
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<DepartmentResult>> GetDepartment(string id)
     {
-        var filterDefinition = Builders<Department>.Filter.Eq(r => r._Id, id);
-        return await _departmentCollection.Find(filterDefinition).As<DepartmentResult>().FirstOrDefaultAsync();
+        //var filterDefinition = Builders<Department>.Filter.Eq(r => r._Id, id);
+        //return await _departmentCollection.Find(filterDefinition).FirstOrDefaultAsync();
+        return await _departmentCollection.AsQueryable().Where(r => r._Id == id).Select(ToResult).FirstOrDefaultAsync();
     }
 
     [HttpPost]
@@ -74,4 +72,11 @@ public class DepartmentController : ControllerBase
         //await _departmentCollection.DeleteOneAsync(filterDefinition);
         return Ok();
     }
+
+    private Expression<Func<Department, DepartmentResult>> ToResult => department =>
+        new DepartmentResult()
+        {
+            _Id = department._Id,
+            Name = department.Name
+        };
 }

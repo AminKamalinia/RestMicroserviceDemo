@@ -11,7 +11,7 @@ namespace EmployeeWebAPI.Models.DTOs.Employee
         public string Email { get; set; }
         public string CellphoneNumber { get; set; }
         public string PersonalPictureFileName { get; set; }
-        public List<int> DepartmentIds { get; set; }
+        public List<string> DepartmentIds { get; set; }
         public bool IsActive { get; set; }
     }
 }
